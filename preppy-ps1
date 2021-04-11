@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This script customizes the look of the bash command prompt
+
+# These color values can be overridden in ~/.bashrc
+: ${preppy_usernameColor:=39}
+: ${preppy_pathColor:=C85A00}
+: ${preppy_rootColor:=5}
+: ${preppy_hostnameColor:=$preppy_usernameColor}
+: ${preppy_atColor:=$preppy_usernameColor}
+: ${preppy_promptColor:=$preppy_usernameColor}
+
+if [ "$EUID" -eq 0 ]; then
+
+    # Prompt for root
+    echo "$(fgpcolor $preppy_rootColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_promptColor)# $(fgp0)"
+
+else
+
+    # Prompt for non-root
+    echo "$(fgpcolor $preppy_usernameColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_promptColor)\$ $(fgp0)"
+
+fi

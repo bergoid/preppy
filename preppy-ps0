@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Script meant to be run before each bash command.
+# To use it, put this in your ~/.bashrc file:
+# PS0='$(. ~/tools/preppy/preppy-ps0)'
+
+# Truncate pid file
+>/tmp/preppy_bashpid_$$

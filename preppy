@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# This script will customize your bash prompt
+# To use it, put this in your ~/.bashrc file:
+# . ~/tools/preppy/preppy
+
+
+# The minimum amount of time in seconds that needs to be elapsed
+# in order to be displayed above the command prompt.
+minimumTimeElapsed=60
+
+
+###############################################
+#                                             #
+#   fg* functions to be used with 'echo -e'   #
+#                                             #
+###############################################
+
+########################################
+function fg0
+{
+    echo "\e[0m"
+}
+
+
+########################################
+function fg16
+{
+    echo "\e[$(expr $1 / 8);$(expr 30 + $(expr $1 % 8))m"
+}
+
+########################################
+function fg256
+{
+    echo "\e[38;5;$1m"
+}
+
+########################################
+function fgRGB
+{
+    echo "\\e[38;2;$1;$2;$3m"
+}
+
+########################################
+function hex2comp
+{
+    printf "%d" 0x${1:$2:2}
+}
+
+########################################
+function fgHEX
+{
+    echo "$(fgRGB $(hex2comp $1 0) $(hex2comp $1 2) $(hex2comp $1 4))"
+}
+
+########################################
+function fgcolor
+{
+    if [ "${#1}" = "6" ]; then
+        fgHEX "$1"
+    else
+        fg256 "$1"
+    fi
+}
+
+
+###########################################################
+#                                                         #
+#   fgp* functions to be used in the definition of $PS1   #
+#                                                         #
+###########################################################
+
+########################################
+function addBrackets
+{
+    echo "\[$1\]"
+}
+
+########################################
+function fgp0
+{
+    echo "$(addBrackets $(fg0))"
+}
+
+########################################
+function fgp16
+{
+    echo "$(addBrackets $(fg16 $1))"
+}
+
+########################################
+function fgp256
+{
+    echo "$(addBrackets $(fg256 $1))"
+}
+
+########################################
+function fgpRGB
+{
+    echo "$(addBrackets $(fgRGB $1 $2 $3))"
+}
+
+########################################
+function fgpHEX
+{
+    echo "$(addBrackets $(fgHEX $1))"
+}
+
+########################################
+function fgpcolor
+{
+    echo "$(addBrackets $(fgcolor $1))"
+}
+
+###########################################################
+#                                                         #
+#                           tmux                          #
+#                                                         #
+###########################################################
+function tmuxSessionName
+{
+    if [ -n "$TMUX" ]; then
+        echo "$(fgp256 238)|$(tmux display-message -p "#S")"
+    fi
+}
+
+################################################################
+#                                                              #
+#   Set some variables controlling the bash prompt behaviour   #
+#                                                              #
+################################################################
+
+preppyDir="$(readlink -f "$(dirname "$(which preppy-here)")")"
+
+# Custom actions before showing prompt
+PROMPT_COMMAND='. $preppyDir/preppy-pc'
+
+# Customize the look of the command prompt
+PS1="$(. $preppyDir/preppy-ps1)"
+
+# Custom actions before running a bash command from the prompt
+PS0='$(. $preppyDir/preppy-ps0)'

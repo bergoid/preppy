@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Script meant to be run after each bash command
+# To use it, put this in your ~/.bashrc file:
+# PROMPT_COMMAND='. ~/tools/preppy/preppy-pc'
+
+# Store the exit status of the previous command
+lastExitStatus="$?"
+
+
+
+########################################
+function prettyPrintTime
+{
+    local T=$1
+    local D=$((T/60/60/24))
+    local H=$((T/60/60%24))
+    local M=$((T/60%60))
+    local S=$((T%60))
+
+    local ds="d "
+    local hs="h "
+    local ms="m "
+    local ss="s"
+
+    echo -ne "$(fg256 238)Elapsed: "
+
+    (( $D > 0 )) && echo -n "$D$ds"
+    (( $H > 0 )) || (( $D > 0 )) && echo -n "$H$hs"
+    (( $M > 0 )) || (( $H > 0 )) || (( $D > 0 )) && echo -n "$M$ms"
+
+    echo -e "$S$ss$(fg0)"
+}
+
+
+########################################
+function calcElapsedTime
+{
+    local filePath="/tmp/preppy_bashpid_$$"
+
+    # Only when pid file exists can we calculate elapsed time
+    if [ -f "$filePath" ]; then
+
+        # Pid file must be empty. This way we know that there has been
+        # an expansion of $PS0 since the last call to $PROMPT_COMMAND.
+        if [ ! -s "$filePath" ]; then
+
+            local startTime=$(stat -c "%Y" "$filePath")
+            local endTime="$(date +%s)"
+
+            # Make the pid file non-empty
+            echo . > "$filePath"
+
+            if [ -z "$startTime" -o -z "$endTime" ]; then
+                return
+            fi
+
+            local timeElapsed="$(expr $endTime - $startTime)"
+
+            if [ "$timeElapsed" -ge "$minimumTimeElapsed" ]; then
+                prettyPrintTime "$timeElapsed"
+            fi
+
+        fi
+
+    fi
+}
+
+
+########################################
+function exitStatus
+{
+    if [[ "$lastExitStatus" != "0" ]]; then
+        echo -e "$(fg256 9)$lastExitStatus$(fg0)"
+    fi
+}
+
+
+########################################
+function gitInfo
+{
+    if [ -n "$(git rev-parse --git-dir 2>/dev/null)" ]; then
+        . $preppyDir/preppy-gitstatus
+    fi
+}
+
+
+# Append command to history file. This preserves the latest
+# history even when bash receives a deadly signal (e.g. at
+# system shutdown)
+function updateHistory
+{
+    history -a;
+}
+
+calcElapsedTime
+
+exitStatus
+
+gitInfo
+
+updateHistory
