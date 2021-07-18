@@ -21,11 +21,31 @@
 #   . preppy_cwd
 #
 # . Move all functions to 'preppy' (simplifying 'preppy-pc')
+#
+# . Choose prompt character
+#   i Some example Unicode characters (from http://shapecatcher.com/):
+#
+#       i Medium right-pointing angle bracket ornament
+#           i Unicode: 0x276d
+#           i Character: ❭
+#
+#       i Heavy right-pointing angle quotation mark ornament
+#           i Unicode: 0x276f
+#           i Character: ❯
+#
+#       i Heavy right-pointing angle bracket ornament
+#           i Unicode: 0x2771
+#           i Character: ❱
+#
+#       i Mathematical right double angle bracket
+#           i Unicode: 0x27eb
+#           i Character: ⟫
+#
 
 if [ "$EUID" -eq 0 ]; then
 
     # Prompt for root
-    echo "$(fgpcolor $preppy_rootColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_promptColor)# $(fgp0)"
+    echo "$(fgpcolor $preppy_rootColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_rootColor)❱❱ $(fgp0)"
 
 else
 
