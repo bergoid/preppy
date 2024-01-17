@@ -194,7 +194,7 @@ gitStatusString()
 
     GITSTATUSLINE="${GITSTATUSLINE}${SYMBOL_END}"
 
-    echo -e "${GITSTATUSLINE}"
+    echo -ne "${GITSTATUSLINE} "
 }
 
 gitStatusString

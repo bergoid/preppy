@@ -50,6 +50,6 @@ if [ "$EUID" -eq 0 ]; then
 else
 
     # Prompt for non-root
-    echo "$(fgpcolor $preppy_usernameColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_promptColor)❭ $(fgp0)"
+    echo "$(fgpcolor $preppy_pathColor)\\w\n$(fgpcolor $preppy_usernameColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_promptColor)❭ $(fgp0)"
 
 fi
