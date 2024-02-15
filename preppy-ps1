@@ -3,11 +3,13 @@
 # This script customizes the look of the bash command prompt
 
 # These color values can be overridden in ~/.bashrc
-: ${preppy_usernameColor:=8}
-: ${preppy_pathColor:=C85A00}
+: ${preppy_usernameColor:=7}
+# : ${preppy_pathColor:=C85A00}
+: ${preppy_pathColor:=3}
 : ${preppy_rootColor:=5}
 : ${preppy_hostnameColor:=$preppy_usernameColor}
-: ${preppy_atColor:=39}
+# : ${preppy_atColor:=39}
+: ${preppy_atColor:=12}
 : ${preppy_promptColor:=$preppy_atColor}
 
 # TODO :move everything except the prompt character (and its coloring) to 'preppy-pc'.
