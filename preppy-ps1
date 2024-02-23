@@ -9,6 +9,8 @@
 : ${preppy_hostnameColor:=$preppy_usernameColor}
 : ${preppy_atColor:=12}
 : ${preppy_promptColor:=$preppy_atColor}
+: ${preppy_promptSymbol:=❭}
+: ${preppy_promptSymbol_root:=❱❱}
 
 # TODO :move everything except the prompt character (and its coloring) to 'preppy-pc'.
 # This way we can have 1 line above the prompt showing the following:
@@ -45,11 +47,11 @@
 if [ "$EUID" -eq 0 ]; then
 
     # Prompt for root
-    echo "$(fgpcolor $preppy_rootColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_rootColor)❱❱ $(fgp0)"
+    echo "$(fgpcolor $preppy_rootColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_pathColor)\\w $(fgpcolor $preppy_rootColor)${preppy_promptSymbol_root} $(fgp0)"
 
 else
 
     # Prompt for non-root
-    echo "$(fgpcolor $preppy_pathColor)\\w\n$(fgpcolor $preppy_usernameColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_promptColor)❭ $(fgp0)"
+    echo "$(fgpcolor $preppy_pathColor)\\w\n$(fgpcolor $preppy_usernameColor)\\u$(fgpcolor $preppy_atColor)@$(fgpcolor $preppy_hostnameColor)\\h$(tmuxSessionName) $(fgpcolor $preppy_promptColor)${preppy_promptSymbol} $(fgp0)"
 
 fi
