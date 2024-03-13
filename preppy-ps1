@@ -7,7 +7,7 @@
 : ${preppy_pathColor:=3}
 : ${preppy_rootColor:=5}
 : ${preppy_hostnameColor:=$preppy_usernameColor}
-: ${preppy_atColor:=12}
+: ${preppy_atColor:=6}
 : ${preppy_promptColor:=$preppy_atColor}
 : ${preppy_promptSymbol:=❭}
 : ${preppy_promptSymbol_root:=❱❱}
